@@ -1,5 +1,6 @@
 solution of exercise of Mining of Massive Datasets
 ====================================================
+
 ## chapter 2( Large-Scale File Systems and Map-Reduce)
 ### section 2.3
 Exercise 2.3.1: Design map-reduce algorithms to take a very large ﬁle of integers and produce as output:
