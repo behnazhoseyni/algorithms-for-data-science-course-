@@ -34,10 +34,36 @@ map:for each tuple t in R and S output (t,t)<br>
 reduce:identity<br>
 **(b) Bag Intersection, deﬁned to be the bag of tuples in which tuple t appears the minimum of the numbers of times it appears in R and S.**<br>
 solution:<br>
-map1:for each tuple t in R output ((t,R),1)&for each tuple t in S output ((t,S),1)<br>
-reduce1:the inputs of this function are ((t,R),[1,....,1])or ((t,S),[1,....,1]).output ((t,R),Sum[1,...,1]) and ((t,s),Sum[1,...,1])  <br>
-map2:output of reduce1 is input this map.for each ((t,R),n) (that n is Sum[1,...,1] in  ((t,R),Sum[1,...,1])) output (t,n) and for each ((t,S),m) (that n is Sum[1,...,1] in  ((t,S),Sum[1,...,1])) output (t,m).
-reduce2:
+map1:for each tuple t in R output (t,R)&for each tuple t in S output (t,S)<br>
+reduce1:the inputs of this function are (t,[R,...,R,S,...,S]):<br>
+for i in range list[t]:<br>
+  if i==R<br>
+      r=r+1<br>
+   else<br>
+      s=s+1<br>
+output (t,r,s)<br>
+map2:for each (t,r,s) output (t,min{r,s})<br>
+reduce 2:for input (t,n) (that n=min{s,r}) produce n tuple(t,t)<br>
+**(c) Bag Diﬀerence, deﬁned to be the bag of tuples in which the number of times a tuple t appears is equal to the number of times it appears in R minus the number of times it appears in S. A tuple that appears more times in S than in R does not appear in the diﬀerence.**<br>
+map1:for each tuple t in R output (t,R)&for each tuple t in S output (t,S)<br>
+reduce1:the inputs of this function are (t,[R,...,R,S,...,S]):<br>
+for i in range list[t]:<br>
+  if i==R<br>
+      r=r+1<br>
+   else<br>
+      s=s+1<br>
+output (t,r,s)<br>
+map2:for each (t,r,s) output (t,r-s)<br>
+reduce 2:for input (t,n) (that n=r-s) produce n tuple(t,t).(if n=<0,prodce nothing)<br>
+**Exercise 2.3.4: Selection can also be performed on bags. Give a map-reduce implementation that produces the proper number of copies of each tuple t that passes the selection condition. That is, produce key-value pairs from which the correct result of the selection can be obtained easily from the values.**<br>
+map:for each t satisfy C produce (t,1)<br>
+reduce:after sorting ang grouping we have (t,[1,....,1]),we produce (t,sum[1,...,1])<br>
+**Exercise 2.3.5: The relational-algebra operation R(A,B) ⊲⊳ B<C S(C,D) produces all tuples (a,b,c,d) such that tuple (a,b) is in relation R, tuple (c,d) is in S, and b < c. Give a map-reduce implementation of this operation, assuming R and S are sets.**<br>
+
+
+
+
+
 
 
 
